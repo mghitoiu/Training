@@ -7,10 +7,15 @@ class TeamsController < ApplicationController
     @teams = Team.all
 
     TeamMailer.send_report.deliver_later
+
   end
 
   def show
     head :not_found unless @team.present?
+    # resize_logo!
+    @team.logos.each do |logo|
+      logo.variant(resize: '50x50!')
+    end
   end
 
   def download_logo
@@ -51,7 +56,7 @@ class TeamsController < ApplicationController
   end
 
   def team_params
-    params.require(:team).permit(:name, :abbreviation, :logo)
+    params.require(:team).permit(:name, :abbreviation, logos:[])
   end
 
   def set_team
