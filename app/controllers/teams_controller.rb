@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'csv'
 
 class TeamsController < ApplicationController
   before_action :set_team, only: %i[update show destroy download_logo]
@@ -6,16 +7,16 @@ class TeamsController < ApplicationController
   def index
     @teams = Team.all
 
-    TeamMailer.send_report.deliver_later
+    #TeamMailer.send_report.deliver_later
 
   end
 
   def show
     head :not_found unless @team.present?
     # resize_logo!
-    @team.logos.each do |logo|
-      logo.variant(resize: '50x50!')
-    end
+    # @team.logos.each do |logo|
+    #  logo.variant(resize: '50x50!')
+    # end
   end
 
   def download_logo
@@ -47,6 +48,12 @@ class TeamsController < ApplicationController
     else
       handle_error(@team.errors)
     end
+  end
+
+  def create_teams
+    csv_str = CSV.read("storage/test.csv")
+    CreateTeamsJob.perform_later(csv_str)
+    render json: {message: "Job in progress"}
   end
 
   private

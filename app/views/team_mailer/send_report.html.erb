@@ -1,16 +1,12 @@
 <table>
   <thead>
     <tr>
-      <td>Name</td>
-      <td>Manager</td>
+      <td>Added records:</td>
     </tr>
   </thead>
   <tbody>
-    <% @teams.each do |team| %>
       <tr>
-        <td><%= team.name %></td>
-        <td><%= team.manager.name %></td>
+        <td><%= @added_records %></td>
       </tr>
-    <% end %>
   </tbody>
 </table>

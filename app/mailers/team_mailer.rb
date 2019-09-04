@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class TeamMailer < ApplicationMailer
-  def send_report
-    @teams = Team.all
-
+  def send_report(added_records)
+    #@teams = Team.all
+    @added_records = added_records
     mail(
       to: 'some_email_address@gmail.com',
       bcc: '',

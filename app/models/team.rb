@@ -2,7 +2,6 @@
 
 class Team < ApplicationRecord
 
-
   validates_presence_of :name
   validates_uniqueness_of :name
   before_create :add_abbreviation_from_name!
